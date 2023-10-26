@@ -1,19 +1,15 @@
 # install node js on ubuntu with update and upgrade the using curl in Dockerfile
-ARG NODE_VERSION=14.x
 FROM ubuntu:20.04
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install curl -y
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install nodejs -y
+WORKDIR /app/
 
-
-# copy file form base machine to docker 
-COPY package.json package.json
-COPY package-lock.json package-lock.json
-COPY main.js main.js
-
+COPY . .
 # run the app 
 RUN npm install
+COPY main.js main.js
 
 # add entrypoing  when anyone can run the container then the main.js also running 
 ENTRYPOINT ["node", "main.js"]
